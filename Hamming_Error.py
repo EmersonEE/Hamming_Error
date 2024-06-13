@@ -1,74 +1,61 @@
-import pandas as pd
-
-
-def obtener_palabra_valida():
-    while True:
-        palabra = input("Ingrese la palabra en 0 y 1: ")
-        if len(palabra) > 4:
-            print("Palabra Mayor a 4 Bits")
-            print("Por favor, ingrese nuevamente.")
-        elif all(caracter == "0" or caracter == "1" for caracter in palabra):
-            return palabra
-        else:
-            print("Palabra no válida.")
-            print("Por favor, ingrese nuevamente.")
-
-
-numeros_binarios = ["000", "001", "010", "011", "100", "101", "110", "111"]
-
-# Solicita una palabra válida
-palabra = obtener_palabra_valida()
 sumap1 = 0
 sumap2 = 0
 sumap3 = 0
 v_paridad1 = 0
 v_paridad2 = 0
 v_paridad3 = 0
-bitsuma = 0
 sumap1e = 0
 sumap2e = 0
 sumap3e = 0
 v_paridad1e = 0
 v_paridad2e = 0
 v_paridad3e = 0
+
+bitsuma = 0
+
+
+def obtener_palabra_valida():
+    while True:
+        informacion = input("Ingrese la informacion en 0 y 1: ")
+        if len(informacion) > 4:
+            print("informacion Mayor a 4 Bits")
+            print("Por favor, ingrese nuevamente.")
+        elif all(caracter == "0" or caracter == "1" for caracter in informacion):
+            return informacion
+        else:
+            print("informacion no válida.")
+            print("Por favor, ingrese nuevamente.")
+
+
+# Solicita una informacion válida
+informacion = obtener_palabra_valida()
+
+numeros_binarios = ["000", "001", "010", "011", "100", "101", "110", "111"]
 # Convierte la palabra en una lista de caracteres
-lista = list(palabra)
-bitM = lista[3]
+lista = list(informacion)
+
 # lista[0] = 0 A D1
 # lista[1] = 1 B D2
 # lista[2] = 0 C D3
 # lista[3] = 1 D D4
 # A B C D
 # 0 1 0 1
-print(f"Bit 0: {bitM}")
-
-print(f"El Bit Seleccionado es: {''.join(lista)}")
-
+print(f"El Bit Seleccionado es: {informacion}")
 
 # Paridad 1
 
 if int(lista[0]) == 1:
     sumap1 += 1
     sumap2 += 1
-else:
-    sumap1 = sumap1
-    sumap2 = sumap2
 
 if int(lista[1]) == 1:
     sumap1 += 1
     sumap3 += 1
-else:
-    sumap1 = sumap1
-    sumap3 = sumap3
 
 if int(lista[3]) == 1:
     sumap1 += 1
     sumap2 += 1
     sumap3 += 1
-else:
-    sumap1 = sumap1
-    sumap2 = sumap2
-    sumap3 = sumap3
 
 if sumap1 % 2:
     v_paridad1 = 1
@@ -80,9 +67,6 @@ else:
 if int(lista[2]) == 1:
     sumap2 += 1
     sumap3 += 1
-else:
-    sumap2 = sumap2
-    sumap3 = sumap3
 
 if sumap2 % 2:
     v_paridad2 = 1
@@ -122,34 +106,20 @@ def obtener_error_valida():
 
 
 error = obtener_error_valida()
-
 lista_error = list(error)
-
 # Paridad 1
-
 if int(lista_error[0]) == 1:
     sumap1e += 1
     sumap2e += 1
-else:
-    sumap1e = sumap1e
-    sumap2e = sumap2e
 
 if int(lista_error[1]) == 1:
     sumap1e += 1
     sumap3e += 1
-else:
-    sumap1e = sumap1e
-    sumap3e = sumap3e
 
 if int(lista_error[3]) == 1:
     sumap1e += 1
     sumap2e += 1
     sumap3e += 1
-else:
-    sumap1e = sumap1e
-    sumap2e = sumap2e
-    sumap3e = sumap3e
-
 
 if sumap1e % 2:
     v_paridad1e = 1
@@ -161,9 +131,6 @@ else:
 if int(lista_error[2]) == 1:
     sumap2e += 1
     sumap3e += 1
-else:
-    sumap2e = sumap2e
-    sumap3e = sumap3e
 
 if sumap2e % 2:
     v_paridad2e = 1
@@ -177,7 +144,6 @@ if sumap3e % 2:
 else:
     v_paridad3e = 0
 
-
 lista_info_error = [
     str(v_paridad1e),
     str(v_paridad2e),
@@ -190,9 +156,7 @@ lista_info_error = [
 print(f"Codigo de Hamming: {''.join(lista_info)}")
 print(f"Codigo de Hamming Error: {''.join(lista_info_error)}")
 
-
 # Compuerta XOR
-
 # bit mas significativo paridad 3
 
 xora = bool(v_paridad3) ^ bool(v_paridad3e)
@@ -214,18 +178,21 @@ if xorc == True:
 else:
     bitc = 0
 
-
 biterror = [bita, bitb, bitc]
 num = "".join(map(str, biterror))
-if num == "011":
-    num = "100"
-else:
-    num = num
+
+
 for k in numeros_binarios:
     if k == num:
         break
     else:
         bitsuma += 1
+
+if num == "011":
+    num = "100"
+else:
+    num = num
+
 if bitsuma == 3:
     bitsuma += 1
 else:
@@ -236,6 +203,7 @@ if bitsuma == 0:
 else:
     print(f"Su Error Esta en El Bit: {num}")
     print(f"La Posicion del Error esta en el Bit: {bitsuma}")
+
 if bitsuma == 4:
     lista_error[0] = "1" if lista_error[0] == "0" else "0"
 elif bitsuma == 5:
